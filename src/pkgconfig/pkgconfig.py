@@ -101,7 +101,8 @@ def _raise_if_not_exists(package):
 
 def _exec(*args):
     pkg_config = os.environ.get('PKG_CONFIG', None) or 'pkg-config'
-    return run([*shlex.split(pkg_config), *args], stdout=PIPE, stderr=PIPE)
+    split = lambda cmd: shlex.split(cmd, posix=True if os.name == 'posix' else False)
+    return run([*split(pkg_config), *args], stdout=PIPE, stderr=PIPE)
 
 
 _OPTION_MAP = {
